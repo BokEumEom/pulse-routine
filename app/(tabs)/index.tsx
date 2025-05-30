@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Calendar, CheckCircle2, Timer, Users } from 'lucide-react-native';
+import { Calendar, CircleCheck as CheckCircle2, Timer, Users } from 'lucide-react-native';
 import Colors from '@/constants/Colors';
 import ActiveRoutineCard from '@/components/routine/ActiveRoutineCard';
 import RoutinesList from '@/components/routine/RoutinesList';
