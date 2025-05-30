@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import { Clock, Heart, UserCog } from 'lucide-react-native';
+import { Clock, Heart, UserCog, Plus } from 'lucide-react-native';
 import Colors from '@/constants/Colors';
 import { BlurView } from 'expo-blur';
 import { Platform } from 'react-native';
@@ -50,6 +50,15 @@ export default function TabLayout() {
           title: 'Emotions',
           tabBarIcon: ({ color, size }) => (
             <Heart size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="create-routine"
+        options={{
+          title: 'Create',
+          tabBarIcon: ({ color, size }) => (
+            <Plus size={size} color={color} />
           ),
         }}
       />
