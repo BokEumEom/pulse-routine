@@ -5,14 +5,17 @@ import { router } from 'expo-router';
 import { AlarmClock, Moon, Sun, Plus, Trash2, ArrowLeft } from 'lucide-react-native';
 import Colors from '@/constants/Colors';
 import { Task } from '@/types';
+import { useRoutines } from '@/hooks/useRoutines';
 
 export default function CreateRoutineScreen() {
+  const { addRoutine } = useRoutines();
   const [routineName, setRoutineName] = useState('');
   const [duration, setDuration] = useState('60');
   const [selectedIcon, setSelectedIcon] = useState<'morning' | 'day' | 'night'>('morning');
   const [tasks, setTasks] = useState<Task[]>([
     { id: '1', text: '', completed: false }
   ]);
+  const [error, setError] = useState<string | null>(null);
 
   const handleAddTask = () => {
     setTasks(prev => [...prev, {
@@ -30,14 +33,34 @@ export default function CreateRoutineScreen() {
     setTasks(prev => prev.map(task => 
       task.id === taskId ? { ...task, text } : task
     ));
+    setError(null);
+  };
+
+  const validateForm = () => {
+    if (!routineName.trim()) {
+      setError('루틴 이름을 입력해주세요');
+      return false;
+    }
+
+    if (tasks.some(task => !task.text.trim())) {
+      setError('모든 할 일을 입력해주세요');
+      return false;
+    }
+
+    const durationNum = parseInt(duration);
+    if (isNaN(durationNum) || durationNum <= 0) {
+      setError('올바른 소요 시간을 입력해주세요');
+      return false;
+    }
+
+    return true;
   };
 
   const handleSave = () => {
-    if (!routineName.trim() || tasks.some(task => !task.text.trim())) {
+    if (!validateForm()) {
       return;
     }
 
-    // Here you would typically save the routine to your state management system
     const newRoutine = {
       id: Date.now().toString(),
       name: routineName,
@@ -46,7 +69,7 @@ export default function CreateRoutineScreen() {
       icon: selectedIcon
     };
 
-    console.log('New Routine:', newRoutine);
+    addRoutine(newRoutine);
     router.back();
   };
 
@@ -67,12 +90,21 @@ export default function CreateRoutineScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+        {error && (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{error}</Text>
+          </View>
+        )}
+
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>루틴 이름</Text>
           <TextInput
             style={styles.input}
             value={routineName}
-            onChangeText={setRoutineName}
+            onChangeText={(text) => {
+              setRoutineName(text);
+              setError(null);
+            }}
             placeholder="루틴 이름을 입력하세요"
             placeholderTextColor={Colors.text.tertiary}
           />
@@ -110,7 +142,10 @@ export default function CreateRoutineScreen() {
           <TextInput
             style={styles.input}
             value={duration}
-            onChangeText={setDuration}
+            onChangeText={(text) => {
+              setDuration(text);
+              setError(null);
+            }}
             keyboardType="numeric"
             placeholder="60"
             placeholderTextColor={Colors.text.tertiary}
@@ -186,6 +221,17 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
+  },
+  errorContainer: {
+    backgroundColor: Colors.error + '15',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  errorText: {
+    color: Colors.error,
+    fontFamily: 'Inter-Medium',
+    fontSize: 14,
   },
   section: {
     marginBottom: 24,
