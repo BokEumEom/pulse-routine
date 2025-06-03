@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { AlarmClock, Moon, Play } from 'lucide-react-native';
+import { router } from 'expo-router';
 import Colors from '@/constants/Colors';
 import { RoutineTemplate } from '@/types';
 
@@ -50,12 +51,15 @@ export default function RoutinesList({ routines, onStart }: Props) {
             </Pressable>
           </View>
         ))}
-        <View style={styles.addRoutineCard}>
+        <Pressable 
+          style={styles.addRoutineCard}
+          onPress={() => router.push('/create-routine')}
+        >
           <View style={styles.addButton}>
             <Text style={styles.addButtonText}>+</Text>
           </View>
           <Text style={styles.addText}>새 루틴 만들기</Text>
-        </View>
+        </Pressable>
       </ScrollView>
     </View>
   );

@@ -60,6 +60,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => (
             <Plus size={size} color={color} />
           ),
+          href: null,
         }}
       />
       <Tabs.Screen
