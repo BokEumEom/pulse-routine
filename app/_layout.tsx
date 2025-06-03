@@ -1,8 +1,8 @@
-import { useFrameworkReady } from '@/hooks/useFrameworkReady'import { useEffect } from 'react';
+import { useFrameworkReady } from '@/hooks/useFrameworkReady';
+import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
 
