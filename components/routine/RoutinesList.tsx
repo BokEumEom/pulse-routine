@@ -53,7 +53,7 @@ export default function RoutinesList({ routines, onStart }: Props) {
         ))}
         <Pressable 
           style={styles.addRoutineCard}
-          onPress={() => router.push('/create-routine')}
+          onPress={() => router.push('/(tabs)/create-routine')}
         >
           <View style={styles.addButton}>
             <Text style={styles.addButtonText}>+</Text>
